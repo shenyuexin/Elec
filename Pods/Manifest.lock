@@ -1,0 +1,27 @@
+PODS:
+  - BaiduMapKit (4.2.0)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.15.3)
+  - ReactiveCocoa (2.5):
+    - ReactiveCocoa/UI (= 2.5)
+  - ReactiveCocoa/Core (2.5):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.5)
+  - ReactiveCocoa/UI (2.5):
+    - ReactiveCocoa/Core
+
+DEPENDENCIES:
+  - BaiduMapKit
+  - MJExtension
+  - MJRefresh
+  - ReactiveCocoa (~> 2.5)
+
+SPEC CHECKSUMS:
+  BaiduMapKit: b6a8f31b3d2e4e5cad4084512a0d9a3878638272
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
+
+PODFILE CHECKSUM: 533d263af07d89e8f911f970266b8142602fea31
+
+COCOAPODS: 1.1.1

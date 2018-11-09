@@ -1,0 +1,28 @@
+//
+//  SmartLock-PrefixHeader.pch
+//  Weimai
+//
+//  Created by Richard Shen on 16/1/7.
+//  Copyright © 2016年 Richard. All rights reserved.
+//
+
+#ifndef SmartLock_PrefixHeader_pch
+#define SmartLock_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import "APPMacro.h"
+#import "UIColor+Theme.h"
+#import "UIView+Utils.h"
+#import "NSString+BeeExtension.h"
+#import "WBLoadingView.h"
+
+#endif /* SmartLock_PrefixHeader_pch */
+
+#ifndef DEBUG
+#    define NSLog(...) {}
+#else
+#    define NSLog(...) NSLog(__VA_ARGS__)
+#endif
