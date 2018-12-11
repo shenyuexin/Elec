@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		79011DB321A6421800818ECA /* WBSegView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79011DB221A6421800818ECA /* WBSegView.m */; };
+		79011DB621A658D900818ECA /* RPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79011DB521A658D900818ECA /* RPopView.m */; };
+		79011DB921A6798700818ECA /* WBPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 79011DB821A6798700818ECA /* WBPopView.m */; };
 		792936EE20088AB600C0A970 /* RLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 792936ED20088AB600C0A970 /* RLoginViewController.m */; };
 		792936F420089D7800C0A970 /* UICountingLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 792936F320089D7800C0A970 /* UICountingLabel.m */; };
 		792936F720089EF800C0A970 /* WBLoginTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 792936F620089EF800C0A970 /* WBLoginTextField.m */; };
@@ -74,6 +77,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		79011DB121A6421800818ECA /* WBSegView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBSegView.h; sourceTree = "<group>"; };
+		79011DB221A6421800818ECA /* WBSegView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBSegView.m; sourceTree = "<group>"; };
+		79011DB421A658D900818ECA /* RPopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RPopView.h; sourceTree = "<group>"; };
+		79011DB521A658D900818ECA /* RPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RPopView.m; sourceTree = "<group>"; };
+		79011DB721A6798700818ECA /* WBPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBPopView.h; sourceTree = "<group>"; };
+		79011DB821A6798700818ECA /* WBPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WBPopView.m; sourceTree = "<group>"; };
 		792936EC20088AB600C0A970 /* RLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RLoginViewController.h; sourceTree = "<group>"; };
 		792936ED20088AB600C0A970 /* RLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RLoginViewController.m; sourceTree = "<group>"; };
 		792936F220089D7800C0A970 /* UICountingLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICountingLabel.h; sourceTree = "<group>"; };
@@ -458,6 +467,8 @@
 		79651FD420049E8100A4759F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				79011DB121A6421800818ECA /* WBSegView.h */,
+				79011DB221A6421800818ECA /* WBSegView.m */,
 				7964C12F201735CC00B8A1B5 /* WBSeparateButton.h */,
 				7964C12E201735CC00B8A1B5 /* WBSeparateButton.m */,
 				792936F220089D7800C0A970 /* UICountingLabel.h */,
@@ -474,6 +485,10 @@
 				795B182B218ADAFA0021448E /* WBDeleteButton.m */,
 				795B18AB218C78740021448E /* RPaopaoView.h */,
 				795B18AC218C78740021448E /* RPaopaoView.m */,
+				79011DB421A658D900818ECA /* RPopView.h */,
+				79011DB521A658D900818ECA /* RPopView.m */,
+				79011DB721A6798700818ECA /* WBPopView.h */,
+				79011DB821A6798700818ECA /* WBPopView.m */,
 			);
 			name = Views;
 			path = SmartLock/Views;
@@ -525,7 +540,7 @@
 				TargetAttributes = {
 					79651FB820049D9300A4759F = {
 						CreatedOnToolsVersion = 9.1;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -635,8 +650,10 @@
 				79639D7E2004A2160080AB30 /* NSData+BeeExtension.m in Sources */,
 				79639D6D2004A2160080AB30 /* NSString+DictionaryValue.m in Sources */,
 				79639D742004A2160080AB30 /* NSDate+YYAdd.m in Sources */,
+				79011DB321A6421800818ECA /* WBSegView.m in Sources */,
 				7929370B2008BD4E00C0A970 /* WBStoreManager.m in Sources */,
 				792936FD2008B09500C0A970 /* WBLoadingView.m in Sources */,
+				79011DB921A6798700818ECA /* WBPopView.m in Sources */,
 				79420A94218807B600B90000 /* WBDataManager.m in Sources */,
 				79D073762011D9C3000203C2 /* RUserCell.m in Sources */,
 				7929372F201075FC00C0A970 /* RSettingViewController.m in Sources */,
@@ -650,6 +667,7 @@
 				79639D652004A2160080AB30 /* UITextView+Limit.m in Sources */,
 				79651FD820049F2100A4759F /* RBaseViewController.m in Sources */,
 				79293711200C764A00C0A970 /* WBMediator.m in Sources */,
+				79011DB621A658D900818ECA /* RPopView.m in Sources */,
 				795B182C218ADAFA0021448E /* WBDeleteButton.m in Sources */,
 				795B1829218AD9450021448E /* WBPhotoSelectCollectionCell.m in Sources */,
 				795B1826218AD7F10021448E /* WBPhotoSelectController.m in Sources */,
@@ -789,8 +807,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U5C2C9R4X5;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartLock/BaiduMap",
@@ -801,7 +819,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.richard.elecreport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longshine.elecreport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5359d4ae-9513-4765-b977-7f18585f2fb0";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -815,9 +833,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = U5C2C9R4X5;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 87EWXQSQEJ;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/SmartLock/BaiduMap",
@@ -828,10 +846,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = com.richard.elecreport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.longshine.elecreport;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "5359d4ae-9513-4765-b977-7f18585f2fb0";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = elecreport_appStore;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

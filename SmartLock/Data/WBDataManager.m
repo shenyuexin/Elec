@@ -12,13 +12,15 @@
 #import "RUserInfo.h"
 #import <AVFoundation/AVFoundation.h>
 #import <Photos/Photos.h>
+#import "WBAPIManager.h"
 
-#define PATH_OF_USERS               [PATH_OF_DOCUMENTS stringByAppendingPathComponent:@"列表.json"]
-#define PATH_OF_ACCOUNT             [PATH_OF_DOCUMENTS stringByAppendingPathComponent:@"账户.json"]
+#define PATH_OF_USERS               [PATH_OF_DOCUMENTS stringByAppendingPathComponent:@"列表json.txt"]
+#define PATH_OF_ACCOUNT             [PATH_OF_DOCUMENTS stringByAppendingPathComponent:@"账户json.txt"]
 #define PATH_OF_INTRODUCTION        [PATH_OF_DOCUMENTS stringByAppendingPathComponent:@"使用说明.txt"]
 
 @interface WBDataManager ()
 
+@property (nonatomic, strong) NSMutableArray *users;
 @property (nonatomic, strong) NSMutableDictionary *accounts;
 @end
 
@@ -60,7 +62,6 @@
         id jsonObject = [NSJSONSerialization JSONObjectWithData:userData options:NSJSONReadingMutableContainers error:&error];
         self.users = [RUserInfo mj_objectArrayWithKeyValuesArray:jsonObject];
 
-        
         self.accounts = [NSMutableDictionary dictionary];
         if([fileManager fileExistsAtPath:PATH_OF_ACCOUNT]){
             accountData = [[NSData alloc] initWithContentsOfFile:PATH_OF_ACCOUNT];
@@ -80,8 +81,74 @@
             NSData *data = [[NSData alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"account" ofType:@"json"]];
             [data writeToFile:PATH_OF_INTRODUCTION atomically:YES];
         }
+        
+        [self initAllUsers];
     }
     return self;
+}
+
+- (void)initLoginUsers:(RAccountInfo *)account
+{
+    self.loginUsers = [NSMutableDictionary dictionary];
+    NSMutableArray *defaultUsers = [NSMutableArray array];
+    NSMutableArray *successUsers = [NSMutableArray array];
+    NSMutableArray *failUsers = [NSMutableArray array];
+    
+    for (RUserInfo *obj in self.users) {
+        if([obj.opeartorNo isEqualToString:account.operatorNo]){
+            switch (obj.status) {
+                case RCheckStatusSuccess:
+                    [successUsers addObject:obj];
+                    break;
+                case RCheckStatusSuspicion:
+                    [failUsers addObject:obj];
+                    break;
+                default:
+                    [defaultUsers addObject:obj];
+                    break;
+            }
+        }
+    }
+    if(defaultUsers.count > 0){
+        [self.loginUsers setObject:defaultUsers forKey:@(RCheckStatusUnknow)];
+    }
+    if(successUsers.count > 0){
+        [self.loginUsers setObject:successUsers forKey:@(RCheckStatusSuccess)];
+    }
+    if(failUsers.count > 0){
+        [self.loginUsers setObject:failUsers forKey:@(RCheckStatusSuspicion)];
+    }
+}
+
+- (void)initAllUsers
+{
+    self.allUsers = [NSMutableDictionary dictionary];
+    NSMutableArray *defaultUsers = [NSMutableArray array];
+    NSMutableArray *successUsers = [NSMutableArray array];
+    NSMutableArray *failUsers = [NSMutableArray array];
+    
+    for (RUserInfo *obj in self.users) {
+        switch (obj.status) {
+            case RCheckStatusSuccess:
+                [successUsers addObject:obj];
+                break;
+            case RCheckStatusSuspicion:
+                [failUsers addObject:obj];
+                break;
+            default:
+                [defaultUsers addObject:obj];
+                break;
+        }
+    }
+    [self.allUsers setObject:defaultUsers forKey:@(RCheckStatusUnknow)];
+    [self.allUsers setObject:successUsers forKey:@(RCheckStatusSuccess)];
+    [self.allUsers setObject:failUsers forKey:@(RCheckStatusSuspicion)];
+}
+
+- (void)updateArrays
+{
+    [self initAllUsers];
+    [self initLoginUsers:[WBAPIManager sharedManager].loginUser];
 }
 
 
@@ -89,6 +156,9 @@
 {
     RAccountInfo *account = self.accounts[phone];
     if(account && [account.password isEqualToString:pwd]){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [self initLoginUsers:account];
+        });
         return account;
     }
     return nil;
@@ -108,20 +178,41 @@
 
 - (void)saveUsers
 {
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    if([fileManager fileExistsAtPath:PATH_OF_USERS]){
-        NSError *error = nil;
-        
-        NSMutableArray *array = [NSMutableArray array];
-        [self.users enumerateObjectsUsingBlock:^(RUserInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSMutableArray *array = [NSMutableArray array];
+    NSMutableArray *allValues = [NSMutableArray array];
+    for(NSArray *users in self.allUsers.allValues){
+        [allValues addObjectsFromArray:users];
+    }
+    
+    [allValues enumerateObjectsUsingBlock:^(RUserInfo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if(obj.status == RCheckStatusUnknow){
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"consNo == %@", obj.consNo];
+            NSArray *filtered = [self.loginUsers[@(RCheckStatusSuccess)] filteredArrayUsingPredicate:predicate];
+            RUserInfo *filterUser = filtered.firstObject;
+            if(!filterUser){
+                filtered =  [self.loginUsers[@(RCheckStatusSuspicion)] filteredArrayUsingPredicate:predicate];
+                filterUser = filtered.firstObject;
+            }
+            
+            if(filterUser){
+                [array addObject:filterUser.mj_JSONString];
+            }
+            else{
+                [array addObject:obj.mj_JSONString];
+            }
+        }
+        else{
             [array addObject:obj.mj_JSONString];
-        }];
-        
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array
-                                                           options:NSJSONWritingPrettyPrinted
-                                                             error:&error];
-        [jsonData writeToFile:PATH_OF_USERS atomically:YES];
-//    }
+        }
+    }];
+    
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    [jsonData writeToFile:PATH_OF_USERS atomically:YES];
+    
+    [self updateArrays];
 }
 
 - (void)updatePics:(NSArray *)array user:(RUserInfo *)user
@@ -135,7 +226,7 @@
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
     [array enumerateObjectsUsingBlock:^(PHAsset * _Nonnull asset, NSUInteger idx, BOOL * _Nonnull stop) {
         [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-            [imageData writeToFile:[folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%ld.jpg",idx]] atomically:YES];
+            [imageData writeToFile:[folderPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu.jpg",(unsigned long)idx]] atomically:YES];
             [assetIdentifiers addObject:asset.localIdentifier];
             
             if(idx == array.count-1){

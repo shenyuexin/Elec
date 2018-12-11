@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBDataManager : NSObject
 
-@property (nonatomic, strong) NSMutableArray *users;
+@property (nonatomic, strong) NSMutableDictionary *allUsers;
+@property (nonatomic, strong) NSMutableDictionary *loginUsers;
 
 
 + (instancetype)sharedManager;

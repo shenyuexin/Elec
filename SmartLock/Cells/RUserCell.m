@@ -60,7 +60,7 @@ NSString * const RUserCellIdentifier = @"RUserCellIdentifier";
     self.lineView.width = self.width - 30;
     self.statusLabel.left = self.width - 130;
     self.pq4Label.left = self.width - 150;
-    self.addrLabel.width = self.width - 40;
+    self.addrLabel.width = self.width - 30;
     
     self.operatorView.frame = CGRectMake(0, self.height-33, self.width, 33);
     self.opeartorNameLabel.width = self.width - 130;
@@ -73,13 +73,18 @@ NSString * const RUserCellIdentifier = @"RUserCellIdentifier";
     
     self.consNoLabel.text = _user.consNo;
     self.consNameLabel.text = _user.consName;
-    self.mrSectNameLabel.text = [NSString stringWithFormat:@"抄表段: %@",_user.mrSectName];
-    NSMutableAttributedString *addrString = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"地址: %@",_user.elecAddr]];
+    self.mrSectNameLabel.text = [NSString stringWithFormat:@"%@:",_user.mrSectName];
+    CGFloat mrHeight = [self.mrSectNameLabel.text sizeWithFont:self.mrSectNameLabel.font byWidth:SCREEN_WIDTH- 150].height;
+    self.mrSectNameLabel.frame = CGRectMake(15, 70, SCREEN_WIDTH-150, MAX(mrHeight, 16));
+
+    NSMutableAttributedString *addrString = [[NSMutableAttributedString alloc] initWithString:_user.elecAddr];
     NSTextAttachment *attachment = [NSTextAttachment new];
     attachment.image = [UIImage imageNamed:@"icon_location"];
-    attachment.bounds = CGRectMake(2, -1.5, 9, 12);
+    attachment.bounds = CGRectMake(0, -1.5, 10, 12);
     [addrString appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
     self.addrLabel.attributedText = addrString;
+    CGFloat addrHeight = [[NSString stringWithFormat:@"%@  ",user.elecAddr] sizeWithFont:self.addrLabel.font byWidth:SCREEN_WIDTH- 30].height;
+    self.addrLabel.frame = CGRectMake(15, self.mrSectNameLabel.bottom+3, SCREEN_WIDTH-30, MAX(addrHeight, 16));
     
     NSMutableAttributedString *pq4String = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前电量: %@", _user.pq4]];
     [pq4String addAttributes:@{NSForegroundColorAttributeName:HEX_RGB(0x333333),
@@ -132,7 +137,7 @@ NSString * const RUserCellIdentifier = @"RUserCellIdentifier";
 - (UILabel *)consNameLabel
 {
     if(!_consNameLabel){
-        _consNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _consNoLabel.bottom, self.width-130, 18)];
+        _consNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _consNoLabel.bottom, self.width-50, 18)];
         _consNameLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:13];
         _consNameLabel.textColor = HEX_RGB(0x666666);
         _consNameLabel.numberOfLines = 1;
@@ -158,7 +163,7 @@ NSString * const RUserCellIdentifier = @"RUserCellIdentifier";
         _mrSectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 70, self.width-150, 16)];
         _mrSectNameLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         _mrSectNameLabel.textColor = HEX_RGB(0x777777);
-        _mrSectNameLabel.numberOfLines = 1;
+        _mrSectNameLabel.numberOfLines = 0;
     }
     return _mrSectNameLabel;
 }
@@ -166,10 +171,10 @@ NSString * const RUserCellIdentifier = @"RUserCellIdentifier";
 - (UILabel *)addrLabel
 {
     if(!_addrLabel){
-        _addrLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _mrSectNameLabel.bottom+3, self.width-40, 16)];
+        _addrLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, _mrSectNameLabel.bottom+3, self.width-30, 16)];
         _addrLabel.font = [UIFont fontWithName:@"PingFangSC-Regular" size:12];
         _addrLabel.textColor = HEX_RGB(0x777777);
-        _addrLabel.numberOfLines = 1;
+        _addrLabel.numberOfLines = 0;
         _addrLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     }
     return _addrLabel;

@@ -86,6 +86,7 @@
 @property (nonatomic, strong) BMKUserLocation *userLocation; //当前位置对象
 @property (nonatomic, strong) BMKLocationViewDisplayParam *displayParam;
 @property (nonatomic, weak)   WBDataManager *dataManager;
+@property (nonatomic, strong) NSMutableArray *users;
 @property (nonatomic, assign) BOOL isLocationed;
 @end
 
@@ -98,6 +99,11 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.backButton];
     
     self.dataManager = [WBDataManager sharedManager];
+    self.users = [NSMutableArray array];
+    for(NSArray *users in self.dataManager.allUsers.allValues){
+        [self.users addObjectsFromArray:users];
+    }
+    
     [self addAnnotation];
 }
 
@@ -120,8 +126,8 @@
 #pragma mark - Event
 - (void)addAnnotation
 {
-    while (curIdx < self.dataManager.users.count) {
-        RUserInfo *user = self.dataManager.users[curIdx];
+    while (curIdx < self.users.count) {
+        RUserInfo *user = self.users[curIdx];
         if(user.longitude && user.latitude){
             BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc] init];
             annotation.title = [NSString stringWithFormat:@"%lu",(long)(curIdx+1)];
@@ -161,8 +167,8 @@
                                                            reuseIdentifier:reuseIndetifier];
         }
         NSUInteger idx = [annotation.title integerValue] - 1;
-        if(idx < self.dataManager.users.count){
-            RUserInfo *user = self.dataManager.users[idx];
+        if(idx < self.users.count){
+            RUserInfo *user = self.users[idx];
             switch (user.status) {
                 case RCheckStatusUnknow:{
                     annotationView.imgView.image = [UIImage imageNamed:@"icon_map_position_yellow"];
@@ -213,7 +219,7 @@
         annotation.coordinate = result.location;
         [self.mapView addAnnotation:annotation];
         
-        RUserInfo *user = self.dataManager.users[curIdx];
+        RUserInfo *user = self.users[curIdx];
         user.latitude = [NSString stringWithFormat:@"%f",result.location.latitude];
         user.longitude = [NSString stringWithFormat:@"%f",result.location.longitude];
         

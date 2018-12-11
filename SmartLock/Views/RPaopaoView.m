@@ -50,8 +50,8 @@ static NSInteger kArrorHeight = 10;
     
     self.consNoLabel.text = _user.consNo;
     self.consNameLabel.text = _user.consName;
-    self.mrSectNameLabel.text = [NSString stringWithFormat:@"抄表段: %@",_user.mrSectName];
-    self.addrLabel.text = [NSString stringWithFormat:@"地址: %@",_user.elecAddr];
+    self.mrSectNameLabel.text = [NSString stringWithFormat:@"%@:",_user.mrSectName];
+    self.addrLabel.text = [NSString stringWithFormat:@"%@",_user.elecAddr];
     
     NSMutableAttributedString *pq4String = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"当前电量: %@", _user.pq4]];
     [pq4String addAttributes:@{NSForegroundColorAttributeName:HEX_RGB(0x333333),

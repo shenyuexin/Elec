@@ -23,6 +23,7 @@
 @property (nonatomic, strong) WBLoginButton *loginBtn;
 @end
 
+static NSString *kLastLoginPhone = @"kLastLoginPhone";
 @implementation RLoginViewController
 
 - (void)viewDidLoad {
@@ -40,6 +41,8 @@
             self.view.top = 0;
         }];
     }];
+    
+    self.phoneTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:kLastLoginPhone];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -52,8 +55,6 @@
     [self.view addSubview:self.phoneTextField];
     [self.view addSubview:self.codeTextField];
     [self.view addSubview:self.loginBtn];
-    
-    self.phoneTextField.text = @"13906523619";
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -98,7 +99,9 @@
     
     RAccountInfo *account = [[WBDataManager sharedManager] loginWithPhone:self.phoneTextField.text pwd:self.codeTextField.text];
     if(account){
-        [[WBAPIManager sharedManager] setLoginUser:account];
+        [WBAPIManager sharedManager].loginUser = account;
+        [[NSUserDefaults standardUserDefaults] setObject:self.phoneTextField.text forKey:kLastLoginPhone];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [self dismissViewControllerAnimated:YES completion:nil];
     }
     else{
@@ -170,6 +173,7 @@
         _phoneTextField.placeholder = @"用户名";
         _phoneTextField.returnKeyType = UIReturnKeyNext;
         _phoneTextField.delegate = self;
+        _phoneTextField.keyboardType = UIKeyboardTypePhonePad;
     }
     return _phoneTextField;
 }
