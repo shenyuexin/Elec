@@ -32,7 +32,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>请允许"窃电查处助手"访问您的相机</string>
+	<string>请允许&quot;窃电查处助手&quot;访问您的相机</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>只有开启定位功能才能正常使用导航</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -40,12 +40,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>只有开启定位功能才能正常使用导航</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>请允许"窃电查处助手"访问您的相册</string>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>audio</string>
-		<string>location</string>
-	</array>
+	<string>请允许&quot;窃电查处助手&quot;访问您的相册</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UIRequiredDeviceCapabilities</key>
